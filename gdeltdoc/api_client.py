@@ -6,6 +6,7 @@ from gdeltdoc.filters import Filters
 from typing import Dict
 
 from gdeltdoc.helpers import load_json
+from gdeltdoc.session import create_session
 
 
 class GdeltDoc:
@@ -147,7 +148,10 @@ class GdeltDoc:
         ]:
             raise ValueError(f"Mode {mode} not in supported API modes")
 
-        response = requests.get(
+        session = create_session()
+
+
+        response = session.get(
             f"https://api.gdeltproject.org/api/v2/doc/doc?query={query_string}&mode={mode}&format=json"
         )
 
