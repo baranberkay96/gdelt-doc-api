@@ -4,7 +4,6 @@ import random
 import requests
 from requests.sessions import session
 from requests_ip_rotator import ApiGateway, EXTRA_REGIONS
-from fp.fp import FreeProxy
 
 
 def get_random_number():
@@ -13,9 +12,9 @@ def get_random_number():
 
 def create_session():
 
-    proxy = FreeProxy().get()
+    # proxy = FreeProxy().get()
 
-    proxies = {"http": proxy}
+    # proxies = {"http": proxy}
 
     """random_number = get_random_number()
     gateway = ApiGateway(
@@ -27,7 +26,7 @@ def create_session():
     # gateway.start()
     session = requests.Session()
 
-    session.proxies.update(proxies)
+    # session.proxies.update(proxies)
     # session.mount("https://api.gdeltproject.org", gateway)
 
     return session
