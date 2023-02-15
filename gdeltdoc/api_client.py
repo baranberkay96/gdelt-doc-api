@@ -162,6 +162,7 @@ class GdeltDoc:
         headers = header.generate()
 
         print(headers)
+        print(proxies)
 
         response = session.get(
             f"https://api.gdeltproject.org/api/v2/doc/doc?query={query_string}&mode={mode}&format=json",
