@@ -7,6 +7,7 @@ from typing import Dict
 
 from gdeltdoc.helpers import load_json
 from gdeltdoc.session import create_session
+from fake_headers import Headers
 
 
 class GdeltDoc:
@@ -105,7 +106,9 @@ class GdeltDoc:
         """
         timeline = self._query(mode, filters.query_string)
 
-        results = {"datetime": [entry["date"] for entry in timeline["timeline"][0]["data"]]}
+        results = {
+            "datetime": [entry["date"] for entry in timeline["timeline"][0]["data"]]
+        }
 
         for series in timeline["timeline"]:
             results[series["series"]] = [entry["value"] for entry in series["data"]]
@@ -150,17 +153,24 @@ class GdeltDoc:
 
         session = create_session()
 
+        header = Headers(headers=True)  # generate misc headers
 
         response = session.get(
-            f"https://api.gdeltproject.org/api/v2/doc/doc?query={query_string}&mode={mode}&format=json"
+            f"https://api.gdeltproject.org/api/v2/doc/doc?query={query_string}&mode={mode}&format=json",
+            headers=header.generate(),
         )
 
         if response.status_code not in [200, 202]:
-            raise ValueError("The gdelt api returned a non-successful statuscode. This is the response message: {}".
-                             format(response.text))
+            raise ValueError(
+                "The gdelt api returned a non-successful statuscode. This is the response message: {}".format(
+                    response.text
+                )
+            )
 
         # Response is text/html if it's an error and application/json if it's ok
         if "text/html" in response.headers["content-type"]:
-            raise ValueError(f"The query was not valid. The API error message was: {response.text.strip()}")
+            raise ValueError(
+                f"The query was not valid. The API error message was: {response.text.strip()}"
+            )
 
         return load_json(response.content, self.max_depth_json_parsing)
