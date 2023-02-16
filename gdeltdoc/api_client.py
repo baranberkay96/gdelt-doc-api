@@ -2,7 +2,6 @@ import requests
 import pandas as pd
 
 from gdeltdoc.filters import Filters
-from fp.fp import FreeProxy
 from typing import Dict
 
 from gdeltdoc.helpers import load_json
@@ -153,21 +152,15 @@ class GdeltDoc:
 
         session = create_session()
 
-        proxy = FreeProxy().get()
-
-        proxies = {"http": proxy}
-
         header = Headers(headers=True)  # generate misc headers
 
         headers = header.generate()
 
         print(headers)
-        print(proxies)
 
         response = session.get(
             f"https://api.gdeltproject.org/api/v2/doc/doc?query={query_string}&mode={mode}&format=json",
             headers=headers,
-            proxies=proxies,
         )
 
         if response.status_code not in [200, 202]:
