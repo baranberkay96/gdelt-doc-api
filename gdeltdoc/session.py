@@ -12,21 +12,18 @@ def get_random_number():
 
 def create_session():
 
-    # proxy = FreeProxy().get()
+    random_number = get_random_number()
 
-    # proxies = {"http": proxy}
-
-    """random_number = get_random_number()
     gateway = ApiGateway(
         "https://api.gdeltproject.org",
         regions=EXTRA_REGIONS,
         access_key_id=os.getenv(f"AWS_ACCESS_KEY_ID_{random_number}"),
         access_key_secret=os.getenv(f"AWS_SECRET_ACCESS_KEY_{random_number}"),
-    )"""
-    # gateway.start()
+    )
+    gateway.start()
+
     session = requests.Session()
 
-    # session.proxies.update(proxies)
-    # session.mount("https://api.gdeltproject.org", gateway)
+    session.mount("https://api.gdeltproject.org", gateway)
 
     return session
